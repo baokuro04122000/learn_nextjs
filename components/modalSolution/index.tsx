@@ -7,7 +7,7 @@ type ModalProps = {
 }
 //tcl-modal__wrapper
 const ModalSolution:React.FC<ModalProps>  = ({
-  children, isVisible
+   isVisible
 }) => {
   return (
     <div className={styles.tcl_modal__wrapper}>
@@ -20,7 +20,7 @@ const ModalSolution:React.FC<ModalProps>  = ({
           <button className={styles.tcl_modal__close}>X</button>
         </div>
         <div className={styles.tcl_modal__body}>
-          {children}
+          
         </div>
         <div className={styles.tcl_modal__footer}></div>
       </div>

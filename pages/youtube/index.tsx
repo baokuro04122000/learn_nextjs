@@ -3,8 +3,10 @@ import YouTube, { YouTubeProps } from 'react-youtube';
 import data from '../../assets/data.json'
 function youtube() {
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [videoId, setVideoId] = useState(data[Math.floor(Math.random()*data.length)].id)
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(()=>{
     console.log(videoId)
   },[videoId])
