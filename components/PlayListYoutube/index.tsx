@@ -1,10 +1,12 @@
 import type { NextPage } from "next"
 import Item from './Items'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import classes from './playlist.module.css'
 import { Song } from '../../definitions/songs'
-import { Container,ContainerOptions, Draggable, DropResult } from 'react-smooth-dnd'
+import { Container, Draggable } from '../../react-smooth-dnd'
 import { applyDrag } from '../../helpers/utils'
+
+
 type Props = {
   list: Array<Song>,
   onClick:( song:Song )=>void,
@@ -13,7 +15,7 @@ type Props = {
 
 const PlayListYoutube = ({ list, onClick, onChangeList }:Props) => {
   
-  const onColumDrop = ( dropResult:DropResult ) => {
+  const onColumDrop = ( dropResult:any ) => {
     onChangeList(applyDrag(list, dropResult))
   }
 
