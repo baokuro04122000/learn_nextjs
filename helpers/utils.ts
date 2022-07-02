@@ -1,4 +1,4 @@
-import { DropResult } from 'react-smooth-dnd'
+import { DropResult } from 'smooth-dnd'
 export const applyDrag = (arr:Array<any>, dragResult:DropResult) => {
   const { removedIndex, addedIndex, payload } = dragResult
   if (removedIndex === null && addedIndex === null) return arr

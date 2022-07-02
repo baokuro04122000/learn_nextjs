@@ -4,6 +4,7 @@ import React from 'react'
 import classes from './playlist.module.css'
 import { Song } from '../../definitions/songs'
 import { Container, Draggable } from '../../react-smooth-dnd'
+import {DropResult} from 'smooth-dnd'
 import { applyDrag } from '../../helpers/utils'
 
 
@@ -15,7 +16,7 @@ type Props = {
 
 const PlayListYoutube = ({ list, onClick, onChangeList }:Props) => {
   
-  const onColumDrop = ( dropResult:any ) => {
+  const onColumDrop = ( dropResult:DropResult ) => {
     onChangeList(applyDrag(list, dropResult))
   }
 

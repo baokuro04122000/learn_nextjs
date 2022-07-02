@@ -38,6 +38,7 @@ declare class Container extends Component<ContainerProps> {
 
     };
     static defaultProps: {
+        children?:React.ReactNode;
         behaviour: string;
         orientation: string;
     };
