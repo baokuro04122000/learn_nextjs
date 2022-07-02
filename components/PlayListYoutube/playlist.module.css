@@ -84,4 +84,12 @@
    font-size: 17px;
    color:#444;
 }
+.drop_preview {
+   background-color: rgba(150, 150, 200, 0.1);
+   border: 1px dashed #abc;
+   margin: 5px;
+ }
 
+.edit_draggable{
+   padding:5px
+}

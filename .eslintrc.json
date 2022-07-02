@@ -1,3 +1,29 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+	},
+	"rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-console": 0,
+    "no-unused-vars": 1,
+    "no-trailing-spaces": 0,
+    "no-multi-spaces": 0,
+    "no-multiple-empty-lines": 1,
+    "space-before-blocks": ["error", "always"],
+    "object-curly-spacing": [1, "always"],
+		"indent": ["warn", 2],
+    "linebreak-style": 0,
+    "semi": [1, "never"],
+		
+    "no-unexpected-multiline": "warn",
+    "react/prop-types": 0,
+    "react/display-name": 0,
+    "keyword-spacing": 0,
+    "comma-dangle": 1,
+    "comma-spacing": 0,
+    "arrow-spacing": 1
+	}
 }
