@@ -4,13 +4,13 @@ export interface PostIdPageProps{
 
 }
 
-export default function PostIdPage(props: PostIdPageProps){
+export default function PostIdPage( props: PostIdPageProps ) {
   const router = useRouter()
-  const {postId} = router.query
+  const { postId } = router.query
 
   return (
-      <div>
+    <div>
         postId:  {postId}
-      </div>
+    </div>
   )
 }

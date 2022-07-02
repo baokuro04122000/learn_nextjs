@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
 
-
 const solutionModal = () => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false)
 
   
   const handleChangeStateModal = () => {

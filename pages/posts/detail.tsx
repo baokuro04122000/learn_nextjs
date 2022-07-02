@@ -4,6 +4,6 @@ export interface DetailsPostPageProps{
 
 }
 
-export default function DetailsPostPage(props: DetailsPostPageProps){
+export default function DetailsPostPage(props: DetailsPostPageProps) {
   return <div>details post page</div>
 }

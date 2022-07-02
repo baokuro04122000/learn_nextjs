@@ -4,13 +4,13 @@ export interface ParamsPageProps{
 
 }
 
-export default function ParamsPage(props: ParamsPageProps){
+export default function ParamsPage(props: ParamsPageProps) {
   const router = useRouter()
-  const {params} = router.query
+  const { params } = router.query
 
   return (
-      <div>
-        postId:  {params}
-      </div>
+    <div>
+      postId:  {params}
+    </div>
   )
 }
