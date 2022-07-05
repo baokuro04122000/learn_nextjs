@@ -21,3 +21,7 @@ export const mapOrder = (array:Array<any>, order:Array<any>, key:any) => {
   array.sort((a, b) => order.indexOf(a[key]) - order.indexOf(b[key]))
   return array
 }
+
+export const handleNotify = (message: string) => {
+  alert(message)
+}

@@ -21,33 +21,26 @@ const PlayListYoutube = ({ list, onClick, onChangeList }:Props) => {
   }
 
   return (
-    <>
-      
-      <div className={classes.video_list_container}>
-        <Container
-          
-          orientation="vertical"
-          onDrop={onColumDrop}
-          dropPlaceholder={{  
-            animationDuration: 150,
-            showOnTop: true,
-            className: classes.drop_preview
-          }}
-          getChildPayload={index =>
-            list[index]
-          }
-        > 
-          {list?.map((song, index) => {
-            return (
-              <Draggable key={index} className={classes.edit_draggable}  >
-                <Item song={song} onClick={onClick}/>
-              </Draggable>
-            ) 
-          })}
-          
-        </Container>
-      </div>
-    </>
+    <Container
+      orientation="vertical"
+      onDrop={onColumDrop}
+      dropPlaceholder={{  
+        animationDuration: 150,
+        showOnTop: true,
+        className: classes.drop_preview
+      }}
+      getChildPayload={index =>
+        list[index]
+      }
+    > 
+      {list?.map((song, index) => {
+        return (
+          <Draggable key={index} className={classes.edit_draggable}  >
+            <Item song={song} onClick={onClick}/>
+          </Draggable>
+        ) 
+      })}
+    </Container>
 )}
 
 export default PlayListYoutube
