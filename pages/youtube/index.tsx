@@ -61,6 +61,15 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
     })
   }
 
+  function handlePause(e:YouTubeEvent) {
+    if(width < 700) {
+      StartTransition(() => {
+        e.target.playVideo()
+      })
+    }
+    return
+  }
+
   function handleEnd() {
     setVideoId(dataRender[Math.floor(Math.random()*dataRender.length)])
   }
@@ -92,6 +101,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
             videoId={videoId.id} 
             iframeClassName={(width < 700 ? "" : classes.edit_iframe)}
             className={classes.main_video}
+            onPause={handlePause}
             opts={videoOptions}
             onEnd={handleEnd}
           />
