@@ -1,8 +1,8 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import classes from '../../components/PlayListYoutube/playlist.module.css'
-import responsive from '../../components/PlayListYoutube/responsive.module.css'
+
 import fs from 'fs/promises'
 import path from 'path'
 import YouTube, { YouTubeEvent, YouTubeProps } from 'react-youtube'
@@ -16,6 +16,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
   const [videoId, setVideoId] = useState(dataRender[Math.floor(Math.random()*dataRender.length)])
   const [listSongs, setListSongs] = useState(dataRender)
   const [width, setWindowWidth] = useState(1000)
+  const [isPending, StartTransition] = useTransition()
   
   useEffect(() => {
     const width = window.innerWidth
@@ -55,7 +56,9 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
   }
 
   function handleOnReady(e: YouTubeEvent) {
-    e.target.playVideo()
+    StartTransition(() => {
+      e.target.playVideo()
+    })
   }
 
   function handleEnd() {
