@@ -56,16 +56,18 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
   }
 
   function handleOnReady(e: YouTubeEvent) {
+    
     StartTransition(() => {
       e.target.playVideo()
-      
     })
     if(width < 700) {
       StartTransition(() => {
         e.target.playVideo()
       })
+      setTimeout(() => {
+        e.target.playVideo()
+      }, 2000)
     }
-   
   }
 
   function handlePause(e:YouTubeEvent) {
@@ -104,6 +106,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
       <div className={classes.container+" "+(width < 700 ? classes.set_margin_0px : "")}  >
         <div className={classes.main_video_container + " " + (width < 700 ? classes.set_flex_487px : "")}>
           <YouTube 
+          
             onReady={handleOnReady}
             videoId={videoId.id} 
             iframeClassName={(width < 700 ? "" : classes.edit_iframe)}
