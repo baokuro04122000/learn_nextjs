@@ -80,7 +80,10 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
   }
 
   function handleEnd() {
-    setVideoId(dataRender[Math.floor(Math.random()*dataRender.length)])
+    const songRandom = dataRender[Math.floor(Math.random()*dataRender.length)]
+    StartTransition(() => {
+      handleClickSong(songRandom)
+    })
   }
   function handleClickSong(song: Song) {
     setVideoId(song)
