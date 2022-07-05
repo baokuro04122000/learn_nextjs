@@ -59,6 +59,11 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
     StartTransition(() => {
       e.target.playVideo()
     })
+    if(width < 700) {
+      StartTransition(() => {
+        e.target.pauseVideo()
+      })
+    }
   }
 
   function handlePause(e:YouTubeEvent) {
