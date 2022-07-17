@@ -1,9 +1,12 @@
 import type { GetServerSideProps, NextPage } from 'next'
+
 import Head from 'next/head'
 import React, { useEffect, useState, useTransition } from 'react'
 import classes from '../../components/PlayListYoutube/playlist.module.css'
 
 import fs from 'fs/promises'
+import redis from '../../helpers/connect_redis'
+import { handlerPromise } from '../../helpers/utils'
 import path from 'path'
 import YouTube, { YouTubeEvent, YouTubeProps } from 'react-youtube'
 
@@ -70,15 +73,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
     }
   }
 
-  function handlePause(e:YouTubeEvent) {
-    if(width < 700) {
-      StartTransition(() => {
-        e.target.playVideo()
-      })
-    }
-    return
-  }
-
+  
   function handleEnd() {
     const songRandom = dataRender[Math.floor(Math.random()*dataRender.length)]
     StartTransition(() => {
@@ -114,9 +109,9 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
             videoId={videoId.id} 
             iframeClassName={(width < 700 ? "" : classes.edit_iframe)}
             className={classes.main_video}
-            onPause={handlePause}
             opts={videoOptions}
             onEnd={handleEnd}
+            
           />
           <h3 className={width < 700 ? classes.main_vid_title_responsive : classes.main_vid_title}>{videoId.name}</h3>
         </div>
@@ -137,11 +132,16 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   
-  const filePath:string = path.join(process.cwd(),'assets','dinh_bao.json')
-  const jsonData:any = await fs.readFile(filePath)
-  const dataRender = JSON.parse(jsonData)
-  
-  return { props: { dataRender } }
+  const [err, data] = await handlerPromise(redis.get('listSong'))  
+  if(err) {
+    console.log(err)
+    const filePath:string = path.join(process.cwd(),'assets','dinh_bao.json')
+    const jsonData:any = await fs.readFile(filePath)
+    const dataRender = JSON.parse(jsonData)
+    return { props: { dataRender } }
+  }
+
+  return { props: { dataRender:JSON.parse(data) } }
 }
 
 export default Youtube

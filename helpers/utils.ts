@@ -25,3 +25,8 @@ export const mapOrder = (array:Array<any>, order:Array<any>, key:any) => {
 export const handleNotify = (message: string) => {
   alert(message)
 }
+
+export const handlerPromise = (promise: Promise<any>) => {
+  return promise.then(data => [undefined, data])
+    .catch( err => [err, undefined])
+}

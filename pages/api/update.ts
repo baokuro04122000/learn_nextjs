@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs/promises'
 import path from 'path'
+import redis from '../../helpers/connect_redis'
+import { handlerPromise } from '../../helpers/utils'
 type Data = {
   message: string
 }
@@ -20,16 +22,24 @@ export default async function handler(
   case 'POST':
     // update list songs 
     const filePath:string = path.join(process.cwd(),'assets',fileName+".json")
-    try {
-      await fs.writeFile(filePath, JSON.stringify(newData))
-    } catch (error) {
+    let err, data;
+    [err] = await handlerPromise(fs.writeFile(filePath, JSON.stringify(newData)))
+    
+    if(err) {
       res.status(401).json({
-        message:error+""
+        message:err+""
       })
     }
-    
+
+    [err, data] = await handlerPromise(redis.set('listSong', JSON.stringify(newData)))
+    if(err) {
+      res.status(401).json({
+        message: err + ""
+      })
+    }
+
     res.status(200).json({
-      message: 'success'
+      message: data
     })
     break
   default:
