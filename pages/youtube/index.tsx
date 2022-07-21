@@ -6,7 +6,7 @@ import classes from '../../components/PlayListYoutube/playlist.module.css'
 
 import fs from 'fs/promises'
 import redis from '../../helpers/connect_redis'
-import { handlerPromise } from '../../helpers/utils'
+import { handlerPromise, arrayRandomWithoutRepetitions } from '../../helpers/utils'
 import path from 'path'
 import YouTube, { YouTubeEvent, YouTubeProps } from 'react-youtube'
 
@@ -16,7 +16,9 @@ import NavigationPlayList from '../../components/NavigationPlayList'
 import { Song } from '../../definitions/songs'
 const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
 
-  const [videoId, setVideoId] = useState(dataRender[Math.floor(Math.random()*dataRender.length)])
+  const [orderSong, setOrderSong] = useState(0)
+  const [arrayRandomSong, setArrayRandomSong] = useState(arrayRandomWithoutRepetitions(dataRender.length))
+  const [videoId, setVideoId] = useState(dataRender[arrayRandomSong[orderSong]])
   const [listSongs, setListSongs] = useState(dataRender)
   const [width, setWindowWidth] = useState(1000)
   const [isPending, StartTransition] = useTransition()
@@ -59,25 +61,31 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
   }
 
   function handleOnReady(e: YouTubeEvent) {
-    
+    e.target.loadVideoById({
+      'videoId': videoId.id,
+      'startSeconds': 2,
+      'endSeconds': e.target.getDuration() - 2
+    })
+    if(e.target.getDuration() == 0) {
+      let songs = [...listSongs]
+      const x = songs.filter((value) => 
+        value.id != videoId.id 
+      )
+      setListSongs([...x])
+      StartTransition(() => {
+        setArrayRandomSong(arrayRandomWithoutRepetitions(x.length))
+        setOrderSong(0)
+        setVideoId(dataRender[arrayRandomSong[0]])  
+      })
+    }
     StartTransition(() => {
       e.target.playVideo()
     })
-    if(width < 700) {
-      StartTransition(() => {
-        e.target.playVideo()
-      })
-      setTimeout(() => {
-        e.target.playVideo()
-      }, 2000)
-    }
   }
-
-  
   function handleEnd() {
-    const songRandom = dataRender[Math.floor(Math.random()*dataRender.length)]
+    setOrderSong((pre) => pre + 1)
     StartTransition(() => {
-      handleClickSong(songRandom)
+      setVideoId(dataRender[arrayRandomSong[orderSong]])
     })
   }
   function handleClickSong(song: Song) {
@@ -90,7 +98,8 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
       rel: 0,
       showinfo: 1,
       mute: 0,
-      loop: 0
+      loop: 0,
+      startSeconds:2
     },
     height: '390',
     width: '640'
@@ -104,7 +113,6 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
       <div className={classes.container+" "+(width < 700 ? classes.set_margin_0px : "")}  >
         <div className={classes.main_video_container + " " + (width < 700 ? classes.set_flex_487px : "")}>
           <YouTube 
-          
             onReady={handleOnReady}
             videoId={videoId.id} 
             iframeClassName={(width < 700 ? "" : classes.edit_iframe)}
@@ -131,7 +139,6 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
 
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  
   const [err, data] = await handlerPromise(redis.get('listSong'))  
   if(err) {
     console.log(err)

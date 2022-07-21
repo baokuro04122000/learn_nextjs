@@ -30,3 +30,24 @@ export const handlerPromise = (promise: Promise<any>) => {
   return promise.then(data => [undefined, data])
     .catch( err => [err, undefined])
 }
+
+export const arrayOfIndex = (length: Number) => {
+  return [...Array(length).keys()]
+}
+
+export function* shuffle(array: Array<Number>) {
+  var i = array.length
+  while (i--) {
+    yield array.splice(Math.floor(Math.random() * (i+1)), 1)[0]
+  }
+}
+
+export const arrayRandomWithoutRepetitions = (length: Number) => {
+  let result: Array<any> = []
+  let arrayRoot = arrayOfIndex(length)  
+  let arrayRandom = shuffle([...arrayRoot])
+  arrayRoot.forEach(() => {
+    result.push(arrayRandom.next().value)
+  })
+  return result
+} 
