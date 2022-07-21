@@ -78,10 +78,17 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
         setVideoId(dataRender[arrayRandomSong[0]])  
       })
     }
-    StartTransition(() => {
-      e.target.playVideo()
-    })
   }
+
+  function handleChangeState(e: YouTubeEvent) {
+    if(e.target.getPlayerState() == -1) {
+      e.target.playVideo()
+    }
+    if(e.target.getPlayerState() == 0) {
+      setVideoId(dataRender[arrayRandomSong[orderSong]])
+    }
+  }
+
   function handleEnd() {
     setOrderSong((pre) => pre + 1)
     StartTransition(() => {
@@ -98,8 +105,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
       rel: 0,
       showinfo: 1,
       mute: 0,
-      loop: 0,
-      startSeconds:2
+      loop: 0
     },
     height: '390',
     width: '640'
@@ -114,6 +120,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
         <div className={classes.main_video_container + " " + (width < 700 ? classes.set_flex_487px : "")}>
           <YouTube 
             onReady={handleOnReady}
+            onStateChange={handleChangeState}
             videoId={videoId.id} 
             iframeClassName={(width < 700 ? "" : classes.edit_iframe)}
             className={classes.main_video}
