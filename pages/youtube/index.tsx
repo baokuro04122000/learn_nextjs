@@ -26,7 +26,6 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
   useEffect(() => {
     const width = window.innerWidth
     setWindowWidth(width)
-    console.log(width)
   }, [])
 
   useEffect(() => {
@@ -66,6 +65,7 @@ const Youtube: NextPage<{dataRender: Array<Song>}> = ({ dataRender }) => {
       'startSeconds': 2,
       'endSeconds': e.target.getDuration() - 2
     })
+    e.target.playVideo()
     if(e.target.getDuration() == 0) {
       let songs = [...listSongs]
       const x = songs.filter((value) => 
