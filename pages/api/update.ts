@@ -20,7 +20,7 @@ export default async function handler(
 
   switch (method) {
   case 'POST':
-    // update list songs 
+    //update list songs 
     const filePath:string = path.join(process.cwd(),'assets',fileName+".json")
     let err, data;
     [err] = await handlerPromise(fs.writeFile(filePath, JSON.stringify(newData)))
@@ -39,7 +39,7 @@ export default async function handler(
     }
 
     res.status(200).json({
-      message: data
+      message:data
     })
     break
   default:

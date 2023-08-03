@@ -12,10 +12,11 @@ type Props = {
   list: Array<Song>,
   onClick:( song:Song )=>void,
   onChangeList:(songs: Array<Song>) => void,
-  width:number
+  width:number,
+  handleDelete: any
 }
 
-const PlayListYoutube = ({ list, onClick, onChangeList, width }:Props) => {
+const PlayListYoutube = ({ list, onClick, onChangeList, width, handleDelete }:Props) => {
   
   const onColumDrop = ( dropResult:DropResult ) => {
     onChangeList(applyDrag(list, dropResult))
@@ -37,7 +38,7 @@ const PlayListYoutube = ({ list, onClick, onChangeList, width }:Props) => {
       {list?.map((song, index) => {
         return (
           <Draggable key={index} className={classes.edit_draggable}  >
-            <Item song={song} onClick={onClick} width={width}/>
+            <Item index = {index} handleDelete={handleDelete} song={song} onClick={onClick} width={width}/>
           </Draggable>
         ) 
       })}
